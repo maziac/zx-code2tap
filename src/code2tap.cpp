@@ -30,7 +30,7 @@
 
 
 // The version string.
-#define VERSION "1.0.0"
+#define VERSION "1.1.0"
 
 
 // ZX Basic commands coding.
@@ -83,7 +83,9 @@ int main( int argc, char* argv[] ) {
 	char* prg_name = NULL;
 	int start_address = -1;
 	int exec_address = -1;
-	
+	char tap_file_name[PATH_MAX];
+	tap_file_name[0] = 0;
+
     while( i < argc ) {
         char* s = argv[i];
         if( ! strncmp( "-", s, 1 ) ) {
@@ -112,6 +114,11 @@ int main( int argc, char* argv[] ) {
                 // Execution address of machine code
                 i++;
                 exec_address = atoi( argv[i] );
+             }
+            else if( ! strcmp( "-o", s ) ) {
+                // Output filename
+                i++;
+				strcpy(tap_file_name, argv[i] );
              }
             else {
                 // unknown option
@@ -167,9 +174,10 @@ int main( int argc, char* argv[] ) {
         exit( EXIT_FAILURE );
     }
 
+	// Check if filename was given.
+	if(tap_file_name[0] == 0) 
+		sprintf( tap_file_name, "%s.tap", prg_name );
 	// Open file
-	char tap_file_name[PATH_MAX];
-	sprintf( tap_file_name, "%s.tap", prg_name );
     FILE* fp_out = fopen( tap_file_name, "w" );
     if (fp_out == NULL) {
         // Error
@@ -199,13 +207,15 @@ int main( int argc, char* argv[] ) {
 void print_help() {  
     cout << "code2tap (v" << VERSION << ")" << endl;
     cout << "Usage:" << endl;
-    cout << " code2tap prg_name -code code_file_name -start addr1 -exec addr2 [-screen screen_file_name]" << endl;
-    cout << " prg_name: The name of the program. Used for the tap filename" << endl;
-    cout << "   and for the name presented while loading." << endl;
+    cout << " code2tap prg_name -code code_file_name -start addr1 -exec addr2 [-screen screen_file_name] [-o tap_file_name]" << endl;
+    cout << " prg_name: The name of the program." << endl;
+    cout << "     I.e. the name presented while loading." << endl;
     cout << " -code code_file_name: The file containing the machine code binary." << endl;
     cout << " -start addr1: The load code start address." << endl;    
     cout << " -exec addr2: The machine code execution start address." << endl;
     cout << " -screen screen_file_name: The file name of the screen data." << endl;
+    cout << " -o tap_file_name: The filename for the tap file." << endl;
+	cout << "     If omitted 'prg_name'.tap is used." << endl;
 }
 
 
