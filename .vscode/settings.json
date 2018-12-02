@@ -1,0 +1,10 @@
+{
+    "C_Cpp.default.intelliSenseMode": "gcc-x64",
+    "files.associations": {
+        "cstddef": "cpp"
+    },
+    "C_Cpp.autocomplete": "Disabled",
+    "C_Cpp.errorSquiggles": "Disabled",
+    "C_Cpp.intelliSenseEngine": "Disabled",
+    "C_Cpp.intelliSenseEngineFallback": "Disabled"
+}
