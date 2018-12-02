@@ -55,6 +55,9 @@
 #define TAP_HDR_BASIC	0
 #define TAP_HDR_CODE	3
 
+// Max number of character for program name.
+#define MAX_PRG_NAME_LENGTH	10
+
 
 using namespace std;
 
@@ -137,6 +140,10 @@ int main( int argc, char* argv[] ) {
 			}
 			// Use program name
 			prg_name = s;
+			if(strlen(prg_name) > MAX_PRG_NAME_LENGTH) {
+				cout << "Error: The program name is too long. Only " << MAX_PRG_NAME_LENGTH << " characters are allowed." << endl << endl;
+        		exit( EXIT_FAILURE );
+			}
          }
         // Next
         i++;
@@ -378,7 +385,7 @@ void tap_write_prg_header( FILE* fp, char* fname, vector<byte>& data ) {
 	hdr.push_back(TAP_HDR_BASIC);
 	// filename
 	size_t fname_len = strlen(fname);
-	for( size_t i=0; i<10; i++ ) {
+	for( size_t i=0; i<MAX_PRG_NAME_LENGTH; i++ ) {
 		if( i < fname_len )
 			hdr.push_back(fname[i]);
 		else
