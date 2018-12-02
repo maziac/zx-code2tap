@@ -111,12 +111,12 @@ int main( int argc, char* argv[] ) {
             else if( ! strcmp( "-start", s ) ) {
                 // Start address of machine code
                 i++;
-                start_address = atoi( argv[i] );
+                start_address = strtol( argv[i], NULL, 0 );
              }
             else if( ! strcmp( "-exec", s ) ) {
                 // Execution address of machine code
                 i++;
-                exec_address = atoi( argv[i] );
+                exec_address = strtol( argv[i], NULL, 0 );
              }
             else if( ! strcmp( "-o", s ) ) {
                 // Output filename
